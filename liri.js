@@ -1,16 +1,15 @@
 -// At the top of the `liri.js` file, add code to read and set any environment variables with the dotenv package:
-    require("dotenv").config();
-
+require("dotenv").config();
+// var Spotify = require("node-spotify-api");
+var keys = require("./keys.js");
+// var spotify = new Spotify(keys.spotify);
 const axios = require("axios");
 
-// Add the code required to import the `keys.js` file and store it in a variable.
-var keys = require("./keys.js");
+const inquirer = require("inquirer");
 
-// You should then be able to access your keys information like so
-// var spotify = new Spotify(keys.spotify);
+const moment = require("moment");
 
-// Load the NPM Package inquirer
-// const inquirer = require("inquirer");
+const fs = require("fs");
 
 // Take two arguments.
 // The first will be the action (i.e.  `concert-this``spotify-this-song``movie-this``do-what-it-says`)
@@ -49,7 +48,7 @@ function find_concert() {
     // Run a request with axios to the bandsintown api with the artist specified
     axios.get("https://rest.bandsintown.com/artists/" + search + "/events?app_id=codingbootcamp").then(
         function (response) {
-            console.log(response.data.venue);
+            console.log(response.data[0].venue.name);
         })
         .catch(function (error) {
             if (error.response) {
@@ -138,5 +137,6 @@ function find_random_file() {
 }
 
 // so now need to find url for each one so that it's calling each api 
+// need to fix concert api so it shows the right parts of json-but alreayd figured our i have to cinlude data and then the brackets 
 // then need the right information to show up, need to right part of JSON
 // then take screenshots of each of the actions working

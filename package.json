@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/monicarocios/LIRI-Bot/issues"
   },
-  "homepage": "https://github.com/monicarocios/LIRI-Bot#readme"
+  "homepage": "https://github.com/monicarocios/LIRI-Bot#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "dotenv": "^8.2.0"
+  }
 }

@@ -1,11 +1,13 @@
 -// At the top of the `liri.js` file, add code to read and set any environment variables with the dotenv package:
 require("dotenv").config();
-// var Spotify = require("node-spotify-api");
-var keys = require("./keys.js");
-// var spotify = new Spotify(keys.spotify);
-const axios = require("axios");
 
-const inquirer = require("inquirer");
+var keys = require("./keys.js");
+
+var Spotify = require("node-spotify-api");
+
+var spotify = new Spotify(keys.spotify);
+
+const axios = require("axios");
 
 const moment = require("moment");
 
@@ -49,6 +51,8 @@ function find_concert() {
     axios.get("https://rest.bandsintown.com/artists/" + search + "/events?app_id=codingbootcamp").then(
         function (response) {
             console.log(response.data[0].venue.name);
+            // concertTime = moment.format("MM-DD-YYYY"))
+            console.log(response.data[0].venue.city);
         })
         .catch(function (error) {
             if (error.response) {
@@ -68,26 +72,22 @@ function find_concert() {
 }
 
 function find_song() {
+    
+    switch(search) {
+        case(!search):
+        search = "The Sign Ace of Base";
+    }
 
-    axios.get().then(
-        function (response) {
-            console.log(response.data);
-        })
-        .catch(function (error) {
-            if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                console.log("---------------Data---------------");
-                console.log(error.response.data);
-            } else if (error.request) {
-                // The request was made but no response was received
-                console.log(error.request);
-            } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log("Error", error.message);
-            }
-            console.log(error.config);
-        });
+    spotify.search({ type: 'track', query: search }, function (err, response) {
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        }
+
+        console.log(response.tracks.items[0].artists[0].name);
+        console.log(response.tracks.items[0].name);
+        console.log(response.tracks.items[0].preview_url);
+        console.log(response.tracks.items[0].album.name);
+    });
 }
 
 function movie_this() {
@@ -140,3 +140,4 @@ function find_random_file() {
 // need to fix concert api so it shows the right parts of json-but alreayd figured our i have to cinlude data and then the brackets 
 // then need the right information to show up, need to right part of JSON
 // then take screenshots of each of the actions working
+

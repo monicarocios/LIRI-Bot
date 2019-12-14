@@ -130,25 +130,26 @@ function movie_this() {
 
 function find_random_file() {
 
-    axios.get().then(
-        function (response) {
-            console.log(response.data);
-        })
-        .catch(function (error) {
-            if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                console.log("---------------Data---------------");
-                console.log(error.response.data);
-            } else if (error.request) {
-                // The request was made but no response was received
-                console.log(error.request);
-            } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log("Error", error.message);
+    fs.readFile("random.txt", "utf8", function (error, data) {
+
+        if (error) {
+            return console.log(error);
+        }
+
+        console.log(data);
+
+        spotify.search({ type: 'track', query: data }, function (err, response) {
+            if (err) {
+                return console.log('Error occurred: ' + err);
             }
-            console.log(error.config);
+    
+            console.log(response.tracks.items[0].artists[0].name);
+            console.log(response.tracks.items[0].name);
+            console.log(response.tracks.items[0].preview_url);
+            console.log(response.tracks.items[0].album.name);
         });
+
+    });
 }
 
 // so now need to find url for each one so that it's calling each api 

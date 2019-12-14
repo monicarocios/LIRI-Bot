@@ -31,7 +31,7 @@ switch (action) {
         break;
 
     case "movie-this":
-        find_movie();
+        movie_this();
         break;
 
     case "do-what-it-says":
@@ -76,6 +76,7 @@ function find_song() {
     switch(search) {
         case(!search):
         search = "The Sign Ace of Base";
+        break;
     }
 
     spotify.search({ type: 'track', query: search }, function (err, response) {
@@ -92,9 +93,18 @@ function find_song() {
 
 function movie_this() {
 
-    axios.get().then(
+    if (!search) {
+        search = "Mr. Nobody";
+        console.log("If you haven't watched 'Mr. Nobody', then you should: <http://www.imdb.com/title/tt0485947/>");
+        console.log("It's on Netflix!");
+    };
+
+    const queryUrl = "http://www.omdbapi.com/?t=" + search + "&y=&plot=short&apikey=trilogy";
+    console.log(queryUrl);
+
+    axios.get(queryUrl).then(
         function (response) {
-            console.log(response.data);
+            console.log(response.data.Year);
         })
         .catch(function (error) {
             if (error.response) {
@@ -102,8 +112,13 @@ function movie_this() {
                 // that falls out of the range of 2xx
                 console.log("---------------Data---------------");
                 console.log(error.response.data);
+                console.log("---------------Status---------------");
+                console.log(error.response.status);
+                console.log("---------------Status---------------");
+                console.log(error.response.headers);
             } else if (error.request) {
                 // The request was made but no response was received
+                // `error.request` is an object that comes back with details pertaining to the error that occurred.
                 console.log(error.request);
             } else {
                 // Something happened in setting up the request that triggered an Error

@@ -151,9 +151,3 @@ function find_random_file() {
 
     });
 }
-
-// so now need to find url for each one so that it's calling each api 
-// need to fix concert api so it shows the right parts of json-but alreayd figured our i have to cinlude data and then the brackets 
-// then need the right information to show up, need to right part of JSON
-// then take screenshots of each of the actions working
-
